@@ -1,0 +1,30 @@
+2024-12-25 22:14:49,058 - ERROR - Could not start session - RequestException: HTTPSConnectionPool(host='api.agentops.ai', port=443): Max retries exceeded with url: /v2/create_session (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000020C30BDBA50>: Failed to resolve 'api.agentops.ai' ([Errno 11001] getaddrinfo failed)"))
+2024-12-25 22:14:49,059 - ERROR - Failed to start session
+2024-12-25 22:15:44,908 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:15:44,909 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:15:48,785 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:15:50,146 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:15:51,418 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:15:52,648 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:15:54,640 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:00,323 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:00,602 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:01,668 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:03,074 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:04,703 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:06,147 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:07,316 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:08,746 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:10,152 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:12,066 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:13,823 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:15,427 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:17,186 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:18,865 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:22,626 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:24,119 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:28,705 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:30,495 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:36,376 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:43,912 - ERROR - Could not record event. Start a session by calling agentops.start_session().
+2024-12-25 22:16:52,552 - ERROR - Could not record event. Start a session by calling agentops.start_session().
