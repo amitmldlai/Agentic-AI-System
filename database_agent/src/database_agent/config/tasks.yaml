@@ -1,0 +1,21 @@
+extract_data:
+  description: >
+    Extract data that is required for the query {query}
+  expected_output: >
+    Database result for the query
+  agent: sql_dev
+
+analyze_data:
+  description: >
+    Analyze the data from the database and write an analysis for {query}.
+  expected_output: >
+    Detailed analysis text
+  agent: data_analyst
+
+write_report:
+  description: >
+    Write an executive summary of the report from the analysis. The report
+    must be less than 100 words.
+  expected_output: >
+    Markdown report
+  agent: report_writer

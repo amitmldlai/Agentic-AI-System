@@ -1,0 +1,20 @@
+[project]
+name = "database_agent"
+version = "0.1.0"
+description = "Database_Agent using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<=3.13"
+dependencies = [
+    "crewai[tools]>=0.86.0,<1.0.0"
+]
+
+[project.scripts]
+database_agent = "database_agent.main:run"
+run_crew = "database_agent.main:run"
+train = "database_agent.main:train"
+replay = "database_agent.main:replay"
+test = "database_agent.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
