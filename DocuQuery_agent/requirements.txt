@@ -1,0 +1,9 @@
+phidata
+python-dotenv
+openai
+qdrant-client
+bs4
+sqlalchemy
+duckduckgo-search
+packaging
+pypdf
