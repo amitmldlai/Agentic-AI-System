@@ -1,0 +1,6 @@
+streamlit
+pillow
+phidata
+google-generativeai
+tavily-python
+python-dotenv
