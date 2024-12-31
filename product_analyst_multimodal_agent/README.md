@@ -25,11 +25,12 @@
 ---
 
 ### How It Works  
-1. **Input**: Upload an image of the ingredient label or manually input the list.  
+1. **Upload or Provide Image URL**: Users can either upload an image or input a URL. 
 2. **Analysis**: The app evaluates the ingredients, checks dietary restrictions, and flags issues.  
 3. **Rating**: Assigns a nutritional score (1 to 5) and highlights health implications.  
 4. **Suggestions**: Provides healthier alternatives and actionable recommendations.  
 5. **Results**: Outputs insights in Markdown format for easy sharing or review.  
+6. **Downloadable Report**: The insights can be downloaded in Markdown format.
 
 ---
 
