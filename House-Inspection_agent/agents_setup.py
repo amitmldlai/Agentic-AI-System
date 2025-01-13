@@ -1,6 +1,6 @@
 from crewai import Agent
 from crewai import LLM
-from tools_setup import pdf_search_tool, send_email_gmail
+from tools_setup import pdf_search_tool, EmailSenderTool
 import os
 
 # Basic configuration
@@ -33,6 +33,6 @@ professional_writer_agent = Agent(
         clear and concise emails based on the provided information.
         """
     ),
-    tools=[send_email_gmail],
+    tools=[EmailSenderTool()],
     llm=llm
 )

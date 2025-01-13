@@ -1,6 +1,6 @@
 from crewai import Task
-from tools_setup import *
-from agents_setup import *
+from tools_setup import pdf_search_tool
+from agents_setup import research_agent, professional_writer_agent
 answer_customer_question_task = Task(
     description=(
         """
@@ -28,12 +28,14 @@ write_email_task = Task(
             on the research agent's findings.
         - The email should clearly state the issues found in the specified section 
             of the report and request a quote or action plan for fixing these issues.
-        - Contractor email address: {contractor_email}    
+        - Split the email content across multiple lines, with the request for quote or 
+           action plan for fixing these issues in last line. Align the email content like professional.
         - Ensure the email is signed with the following details:
-            Dear {contractor_name}
+            Hello {contractor_name}
 
             Best regards,
             Amit
+        - Contractor email address: {contractor_email}     
         """
     ),
     expected_output="""
