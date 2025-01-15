@@ -1,0 +1,6 @@
+pydub
+crewai
+crewai-tools
+elevenlabs
+python-dotenv
+pydantic
