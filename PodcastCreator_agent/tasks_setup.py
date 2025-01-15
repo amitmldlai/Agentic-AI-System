@@ -178,7 +178,7 @@ podcast_task = Task(
     agent=script_writer,
     context=[summary_task, supporting_research_task],
     output_pydantic=PodcastScript,
-    output_file="output/metadata/podcast_script.json"
+    output_file="output/{dir_id}/data/podcast_script.json"
 )
 
 enhance_script_task = Task(
@@ -233,7 +233,7 @@ enhance_script_task = Task(
     agent=script_enhancer,
     context=[summary_task, podcast_task],
     output_pydantic=PodcastScript,
-    output_file="output/metadata/enhanced_podcast_script.json"
+    output_file="output/{dir_id}/data/enhanced_podcast_script.json"
 )
 
 audio_task = Task(
@@ -264,5 +264,5 @@ audio_task = Task(
     agent=audio_generator_agent,
     context=[enhance_script_task],
     output_pydantic=AudioGeneration,
-    output_file="output/metadata/audio_generation_meta.json"
+    output_file="output/{dir_id}/data/audio_generation_meta.json"
 )

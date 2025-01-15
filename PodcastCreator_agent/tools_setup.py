@@ -1,11 +1,12 @@
 import os
 from typing import Dict, List, Optional, Any, Type
-from utils import setup_directories
 from pydub import AudioSegment
 from crewai.tools import BaseTool
 from pydantic import Field, BaseModel, ConfigDict
 from elevenlabs.client import ElevenLabs
 from crewai_tools import SerperDevTool
+
+dir_id = os.environ.get('DIR_ID')
 
 
 class VoiceConfig(BaseModel):
@@ -41,6 +42,16 @@ class PodcastAudioGeneratorInput(BaseModel):
     dialogue: List[Dialogue]
 
 
+class AudioFiles(BaseModel):
+    """List of audio files"""
+    segment_files: List[str] = Field(..., description="List of generated audio segment files")
+
+
+class FinalAudioFile(BaseModel):
+    """Final audio file"""
+    final_podcast: str = Field(..., description="Path to the final mixed podcast file")
+
+
 class PodcastAudioGenerator(BaseTool):
     """Enhanced podcast audio generation tool."""
 
@@ -55,6 +66,7 @@ class PodcastAudioGenerator(BaseTool):
     output_dir: str = Field(default="output/audio-files")
     client: Any = Field(default=None)
     args_schema: Type[BaseModel] = PodcastAudioGeneratorInput
+    return_schema: Type[BaseModel] = AudioFiles
 
     def __init__(self, **data):
         super().__init__(**data)
@@ -129,8 +141,8 @@ class PodcastAudioGenerator(BaseTool):
             except Exception as e:
                 print(f"Error processing segment {index}: {str(e)}")
                 continue
-
-        return sorted(audio_files)
+        segment_files = sorted(audio_files)
+        return AudioFiles(segment_files=segment_files)
 
 
 class PodcastMixer(BaseTool):
@@ -139,25 +151,23 @@ class PodcastMixer(BaseTool):
     name: str = "PodcastMixer"
     description: str = "Mixes multiple audio files with effects into final podcast."
 
-    audio_config: AudioConfig = Field(default_factory=AudioConfig)
-    output_dir: str = Field(default="output/podcast")
+    # audio_config: AudioConfig = Field(default_factory=AudioConfig)
+    output_dir: str = Field(default="outputs/podcast")
+    args_schema: Type[BaseModel] = AudioFiles
+    return_schema: Type[BaseModel] = FinalAudioFile
 
-    def _run(
-            self,
-            audio_files: List[str],
-            crossfade: int = 50
-    ) -> str:
-        if not audio_files:
+    def _run(self, segment_files: List[str], crossfade: int = 50) -> str:
+        if not segment_files:
             raise ValueError("No audio files provided to mix")
 
         try:
             # Create output directory if it doesn't exist
             os.makedirs(self.output_dir, exist_ok=True)
 
-            mixed = AudioSegment.from_file(audio_files[0])
-            for audio_file in audio_files[1:]:
+            mixed = AudioSegment.from_file(segment_files[0])
+            for audio_file in segment_files[1:]:
                 next_segment = AudioSegment.from_file(audio_file)
-                # Add silence and use crossfade
+                # Add silence and use cross_fade
                 silence = AudioSegment.silent(duration=200)
                 next_segment = silence + next_segment
                 mixed = mixed.append(next_segment, crossfade=crossfade)
@@ -175,15 +185,14 @@ class PodcastMixer(BaseTool):
             )
 
             print(f"Successfully mixed podcast to: {output_file}")
-            return output_file
+            return FinalAudioFile(final_podcast=output_file)
 
         except Exception as e:
             print(f"Error mixing podcast: {str(e)}")
             return ""
 
 
-dirs = setup_directories()
-audio_generator = PodcastAudioGenerator(output_dir=dirs['SEGMENTS'])
+audio_generator = PodcastAudioGenerator(output_dir=f'outputs/{dir_id}/segments')
 
 # Julia: Enthusiastic expert
 audio_generator.add_voice(
@@ -209,5 +218,5 @@ audio_generator.add_voice(
     )
 )
 
-podcast_mixer = PodcastMixer(output_dir=dirs['FINAL'])
+podcast_mixer = PodcastMixer(output_dir=f'outputs/{dir_id}/podcast')
 search_tool = SerperDevTool()

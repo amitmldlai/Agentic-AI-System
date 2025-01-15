@@ -1,4 +1,3 @@
-from datetime import datetime
 import os
 from crewai import LLM
 import uuid
@@ -9,7 +8,7 @@ load_dotenv()
 
 def setup_directories():
     """Set up organized directory structure"""
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    # timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     dir_id = uuid.uuid4()
     dirs = {
         'BASE': f'outputs/{dir_id}',
@@ -20,7 +19,7 @@ def setup_directories():
 
     for directory in dirs.values():
         os.makedirs(directory, exist_ok=True)
-
+    os.environ['DIR_ID'] = str(dir_id)
     return dirs, dir_id
 
 
