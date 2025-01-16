@@ -1,0 +1,19 @@
+pdf_rag_task:
+  description: >
+    Respond to the given question using information from the provided PDF. 
+    The retrieval-augmented generation (RAG) agent will search the document 
+    and extract the most relevant details to ensure an accurate and comprehensive answer.
+    Question: {query}
+  expected_output: >
+    Deliver a precise and accurate answer derived from the PDF content.
+  agent: pdf_rag_agent
+
+pdf_summary_task:
+  description: >
+    Analyze the provided context and expand each topic into a detailed section for a 
+    comprehensive report. Ensure the report is thorough, well-structured, and includes 
+    all pertinent details for every topic.
+  expected_output: >
+    A complete, detailed report with fully developed sections for each topic, formatted 
+    in Markdown without the use of backticks (`).
+  agent: pdf_summary_agent
