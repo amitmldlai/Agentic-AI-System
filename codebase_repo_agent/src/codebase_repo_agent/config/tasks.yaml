@@ -105,3 +105,31 @@ github_summary_task:
     The output should be clean, readable, and formatted for immediate use in documentation.
   agent: github_summary_agent
   context: [github_webserver_task, github_database_task, github_orm_task, github_api_task, github_api_databases_task]
+
+github_fallback_task:
+  description: >
+    Identify and retrieve any missing information from the `github_summary_task` output by utilizing all available outputs 
+    from previous tasks. Focus on resolving gaps in the following sections:
+      - Web server details: Ensure all web server/frameworks are correctly identified with implementation specifics.
+      - Database details: Cross-verify and extract any overlooked database configurations or references in the codebase.
+      - ORM details: Reassess the codebase for ORM usage, including model definitions, configurations, and query examples.
+      - API and database interactions: Detect any missing or undocumented API endpoints, associated database operations, 
+        or queries. Cross-reference with detected ORMs and database details for deeper insights.
+    Apply advanced search and pattern recognition techniques to locate indirect or unconventional code patterns 
+    indicating usage of web servers, databases, ORMs, APIs, or related configurations.
+  expected_output: >
+    A detailed report specifying:
+      - Missing information or gaps from `github_summary_task` output.
+      - Newly discovered details for each section:
+        1. Web Server:
+           - Name and configuration details of the web server/framework.
+        2. Databases:
+           - Names of missing databases, their configurations, and usage details.
+        3. ORMs:
+           - Names and usage details of ORMs not detected earlier.
+        4. APIs and Database Interactions:
+           - Any missing API endpoints with their HTTP methods, descriptions, and database interactions.
+           - SQL queries, database tables, columns, and operations involved for undocumented APIs.
+      - Suggestions or insights for improving the analysis process for similar tasks in the future.
+  agent: github_fallback_agent
+  context: [github_webserver_task, github_database_task, github_orm_task, github_api_task, github_api_databases_task, github_summary_task]

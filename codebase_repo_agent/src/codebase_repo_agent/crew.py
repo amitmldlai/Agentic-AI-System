@@ -22,8 +22,10 @@ class GitHubCrew:
     tasks_config = "config/tasks.yaml"
 
     def __init__(self):
-        from .tools.custom_tool import tools
+        from .tools.custom_tool import tools, llama_tool, fallback_tool
         self.tool = tools()
+        self.fallback_tool = llama_tool(os.path.join(cwd, "repo", st.session_state.repo_path))
+        # self.fallback_tool = fallback_tool(os.path.join(cwd, "repo", st.session_state.repo_path))
         self.responses_dir = os.path.join(cwd, "responses", st.session_state.repo_path)
 
     @agent
@@ -76,8 +78,17 @@ class GitHubCrew:
     def github_summary_agent(self) -> Agent:
         return Agent(
             config=self.agents_config["github_summary_agent"],
-            allow_delegation=True,
+            # allow_delegation=True,
             tools=self.tool,
+            llm=llm
+        )
+
+    @agent
+    def github_fallback_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config["github_fallback_agent"],
+            # allow_delegation=True,
+            tools=self.fallback_tool,
             llm=llm
         )
 
@@ -121,7 +132,6 @@ class GitHubCrew:
     def github_api_databases_task(self) -> Task:
         return Task(
             config=self.tasks_config["github_api_databases_task"],
-            # async_execution=True,
             output_pydantic=APIDBTableOutput,
             output_file=os.path.join(self.responses_dir, "api_databases.json"),
         )
@@ -131,6 +141,13 @@ class GitHubCrew:
         return Task(
             config=self.tasks_config["github_summary_task"],
             output_file=os.path.join(self.responses_dir, "summary.md"),
+        )
+
+    @task
+    def github_fallback_task(self) -> Task:
+        return Task(
+            config=self.tasks_config["github_fallback_task"],
+            output_file=os.path.join(self.responses_dir, "summary2.md"),
         )
 
     @crew
