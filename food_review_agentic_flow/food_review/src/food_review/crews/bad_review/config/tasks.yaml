@@ -1,0 +1,13 @@
+handle_negative_feedback_tasks:
+  description: >
+    Apologize to the customer for their negative experience, provide a coupon code (generate a random string as the coupon code), and record the feedback in the database. The review/feedback message is: {review} and the restaurant name is: {restaurant_name}.
+  expected_output: >
+    A one-line apology message and a coupon code for the customer.
+  agent: negative_feedback_agent
+
+update_db_tasks:
+  description: >
+    Record the bad feedback, along with the apology message and coupon code, in the SQLite database. The review/feedback message is: {review} and the restaurant name is: {restaurant_name}.
+  expected_output: >
+    Confirmation that the following feedback message: {review}, and restaurant name: {restaurant_name}, have been successfully logged to the database.
+  agent: db_update_agent
