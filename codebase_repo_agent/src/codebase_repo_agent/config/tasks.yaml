@@ -1,0 +1,135 @@
+github_webserver_task:
+  description: >
+    Analyze the codebase of the GitHub repository to identify the web server in use.
+    Search for frameworks or servers like Flask, Django, FastAPI, Gunicorn, uWSGI, Bottle, Sanic, Tornado, and other Python-based servers.
+    Look for indicators such as app.run(), server.start(), or specific server-related configurations and imports.
+  expected_output: >
+    A detailed report specifying:
+      - The name of the web server or framework detected.
+      - Details about its implementation, such as entry points, initialization, and any key configurations.
+  agent: github_webserver_agent
+
+github_database_task:
+  description: >
+    Analyze the codebase of the GitHub repository to identify the databases in use.
+    Search for evidence of database systems or servers such as PostgresSQL, SQLite, MSSQL, Oracle, MySQL, MongoDB, Redis, or other databases.
+    Focus on detecting database-related configurations, connection strings, query references, or specific mentions of database systems in the codebase.
+  expected_output: >
+    A comprehensive list of databases detected, including:
+      - Database Name: The name of each database system identified in the codebase.
+      - Description: Details about the database's presence in the codebase, such as configuration files, connection strings, or query patterns.
+  agent: github_database_agent
+
+github_orm_task:
+  description: >
+    Analyze the codebase of the GitHub repository to identify all the ORM frameworks utilized. 
+    Look for evidence of ORM frameworks such as SQLAlchemy, Django ORM, Hibernate, or others used for database interaction. 
+    The analysis should include instances where these frameworks are directly or indirectly utilized in the codebase.
+    Provide detailed insights into how each ORM is used, including database connections, models, and query construction.
+  expected_output: >
+    A comprehensive report of ORMs detected, including:
+      - ORM Name: The name of each ORM framework identified (e.g., SQLAlchemy, Django ORM, Hibernate, Sequelize, etc.).
+      - Description: Details about the presence and usage of the ORM in the codebase, such as:
+          - Location: Files or modules where the ORM is used.
+          - Models: Details about the database models defined.
+          - Queries: Examples of query methods or constructs used (e.g., `.filter()`, `.all()`, `.join()`).
+          - Configuration: Any configuration files or setup methods related to the ORM framework.
+  agent: github_orm_agent
+
+
+github_api_task:
+  description: >
+    Analyze the GitHub repository to identify all API endpoints defined in the codebase. 
+    Extract detailed information about each API, including its endpoint, HTTP method, purpose, input parameters, and response structure.
+    The analysis should consider frameworks such as Flask, FastAPI, Django, Express, or any custom implementation of APIs in the codebase.
+  expected_output: >
+    A comprehensive list of all API endpoints detected, including:
+      - endpoint: The URL or route of the API endpoint.
+      - method: The HTTP method used by the API endpoint (e.g., GET, POST, PUT, DELETE).
+      - description: Details about the API endpoint, including its purpose and usage.
+      - input_parameters: Details of expected input parameters for the API endpoint, including names, types, and constraints if available.
+      - output_structure: Details describing the structure of the API response, including field names and types if defined.
+  agent: github_api_agent
+
+
+github_api_databases_task:
+  description: >
+    Analyze and identify all API endpoints obtained from the previous task. 
+    For each API, extract detailed information including the database tables it interacts with, 
+    columns involved, queries executed, and types of database operations performed.
+  expected_output: >
+    A comprehensive list of all detected API endpoints, including:
+      - endpoint: The URL or route of the API endpoint.
+      - method: The HTTP method used by the API endpoint (e.g., GET, POST, PUT, DELETE).
+      - description: Details about the API, its use case, and expected behavior.
+      - database_tables: A list of database tables used by the API endpoint.
+      - columns: A list of database columns involved in the API operation, if identifiable.
+      - operations: A list of database operations performed (e.g., SELECT, INSERT, UPDATE, DELETE).
+      - sql_queries: The SQL queries executed by the API, extracted directly from the codebase.
+  agent: github_api_databases_agent
+  context: [github_api_task]
+
+github_summary_task:
+  description: >
+    Compile all information collected from previous tasks into a well-structured markdown report.
+    Include sections for:
+      - Web server details.
+      - Database information.
+      - ORM details.
+      - API endpoints with related database details, presented in a tabular format.
+    The API section should include:
+      - API Endpoint.
+      - HTTP Method.
+      - Description.
+      - Database Tables.
+      - Database Operations.
+      - SQL Queries.
+  expected_output: >
+    A comprehensive markdown file with the following sections:
+      1. Web Server:
+         - Name of the web server used.
+         - Whether it was detected in the codebase.
+      2. Databases:
+         - List of databases with names and descriptions of their configurations/usage.
+      3. ORMs:
+         - List of ORM frameworks detected.
+         - Their names and descriptions of usage or configurations.
+      4. APIs and Database Interactions:
+         - A table with the following columns:
+           - API Endpoint
+           - HTTP Method
+           - Description
+           - Database Tables
+           - Database Operations
+           - SQL Queries
+    The output should be clean, readable, and formatted for immediate use in documentation.
+  agent: github_summary_agent
+  context: [github_webserver_task, github_database_task, github_orm_task, github_api_task, github_api_databases_task]
+
+github_fallback_task:
+  description: >
+    Identify and retrieve any missing information from the `github_summary_task` output by utilizing all available outputs 
+    from previous tasks. Focus on resolving gaps in the following sections:
+      - Web server details: Ensure all web server/frameworks are correctly identified with implementation specifics.
+      - Database details: Cross-verify and extract any overlooked database configurations or references in the codebase.
+      - ORM details: Reassess the codebase for ORM usage, including model definitions, configurations, and query examples.
+      - API and database interactions: Detect any missing or undocumented API endpoints, associated database operations, 
+        or queries. Cross-reference with detected ORMs and database details for deeper insights.
+    Apply advanced search and pattern recognition techniques to locate indirect or unconventional code patterns 
+    indicating usage of web servers, databases, ORMs, APIs, or related configurations.
+  expected_output: >
+    A detailed report specifying:
+      - Missing information or gaps from `github_summary_task` output.
+      - Newly discovered details for each section:
+        1. Web Server:
+           - Name and configuration details of the web server/framework.
+        2. Databases:
+           - Names of missing databases, their configurations, and usage details.
+        3. ORMs:
+           - Names and usage details of ORMs not detected earlier.
+        4. APIs and Database Interactions:
+           - Any missing API endpoints with their HTTP methods, descriptions, and database interactions.
+           - SQL queries, database tables, columns, and operations involved for undocumented APIs.
+      - Suggestions or insights for improving the analysis process for similar tasks in the future.
+  agent: github_fallback_agent
+  context: [github_webserver_task, github_database_task, github_orm_task, github_api_task, github_api_databases_task, github_summary_task]
