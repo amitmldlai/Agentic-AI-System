@@ -1,0 +1,24 @@
+recommendation_generation_task:
+  description: >
+    Generate a list of recommendations based on the user's query {query}. Only use the results found. If applicable, use the `filter_by` and `filter_value` to filter the results.
+    You can filter by the following properties: title, director, description, type, country, release_year, listed_in.
+  expected_output: >
+    A structured list of recommendations based on the user's query: {query}. Only include results that are found.
+  agent: recommendation_generation_agent
+
+recommendation_expansion_task:
+  description: >
+    Review the each show details gathered by previous task, then expand on each recommendation to create a full section for a report. Include any missing information, such as title, director, description, type, country, release year, and listed_in that was not captured from the initial query.
+    Use additional research or sources to enrich the details, making each recommendation as thorough as possible.
+  expected_output: >
+    A detailed report for each show recommendation, including all relevant information from the query as well as any additional information gathered.
+  agent: recommendation_expansion_agent
+  context: [recommendation_generation_task]
+
+recommendation_report_task:
+  description: >
+    Combine all expanded sections from previous task into a final report. Each section should contain the recommendation title, director, description, type, country, release year, listed_in, and the expanded details.
+  expected_output: >
+    A comprehensive, structured report that includes all recommendations, each with its corresponding detailed section of information.
+  agent: recommendation_report_agent
+  context: [recommendation_expansion_task]

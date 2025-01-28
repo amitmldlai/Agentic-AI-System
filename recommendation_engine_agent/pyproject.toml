@@ -1,0 +1,26 @@
+[project]
+name = "agentic_rag_example"
+version = "0.1.0"
+description = "agentic_rag_example using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<=3.13"
+dependencies = [
+    "crewai-tools>=0.32.1",
+    "crewai[tools]>=0.86.0,<1.0.0",
+    "docling>=2.15.1",
+    "weaviate-client>=4.10.4",
+]
+
+[project.scripts]
+agentic_rag_example = "agentic_rag_example.main:run"
+run_crew = "agentic_rag_example.main:run"
+train = "agentic_rag_example.main:train"
+replay = "agentic_rag_example.main:replay"
+test = "agentic_rag_example.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv.sources]
+agentic_rag_example = { path = "/Users/lorenzejay/Documents/Uplift Digital Solutions/clients/crewai-org/crewAI", editable = true }
