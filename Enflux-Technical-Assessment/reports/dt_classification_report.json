@@ -1,0 +1,45 @@
+{
+    "BANK_STATEMENT": {
+        "precision": 1.0,
+        "recall": 0.8,
+        "f1-score": 0.8888888888888888,
+        "support": 5.0
+    },
+    "ID": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1-score": 0.7692307692307693,
+        "support": 8.0
+    },
+    "PAY_STUB": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1-score": 0.6153846153846154,
+        "support": 4.0
+    },
+    "TAX_RETURN": {
+        "precision": 1.0,
+        "recall": 0.6,
+        "f1-score": 0.75,
+        "support": 5.0
+    },
+    "W2": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1-score": 0.9411764705882353,
+        "support": 8.0
+    },
+    "accuracy": 0.8,
+    "macro avg": {
+        "precision": 0.8666666666666668,
+        "recall": 0.805,
+        "f1-score": 0.7929361488185018,
+        "support": 30.0
+    },
+    "weighted avg": {
+        "precision": 0.8962962962962963,
+        "recall": 0.8,
+        "f1-score": 0.8113080274844983,
+        "support": 30.0
+    }
+}
