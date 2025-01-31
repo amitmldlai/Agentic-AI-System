@@ -1,7 +1,0 @@
-nltk
-scikit-learn
-sentence-transformers
-pandas
-numpy
-xgboost
-joblib
